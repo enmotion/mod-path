@@ -106,8 +106,8 @@ describe('mod-path 测试',function(){
             var isValidURL =  ModPath.validURL('http://user:pass1@host.com:8080/p/a/t/h?name=mod',"http://host.com:8080/*");
             assert.deepEqual(isValidURL,true)
         })
-        it("地址校验比对测试,path 规则地址为/*/a 测试地址为 /p/a/t/h ,返回 true",function(){
-            var isValidURL =  ModPath.validURL('http://user:pass1@host.com:8080/p/a/t/h?name=mod',"http://host.com:8080/*/a");
+        it("地址校验比对测试,path 规则地址为/c/*/a 测试地址为 /c/p/a/t/h ,返回 true",function(){
+            var isValidURL =  ModPath.validURL('http://user:pass1@host.com:8080/c/p/a/t/h?name=mod',"http://host.com:8080/c/*/a");
             assert.deepEqual(isValidURL,true)
         })
         it("地址校验比对测试,path 规则地址为/*/a 测试地址为 /p/b/t/h,返回 false",function(){
