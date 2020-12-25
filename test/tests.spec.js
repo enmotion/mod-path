@@ -1,0 +1,84 @@
+import ModPath from "../src"
+var assert = require ('assert');
+
+describe('mod-path 测试',function(){    
+    describe("设置测试 encode",function(){
+        it("测试 encode 默认值",function(){         
+            assert.equal(ModPath.encode,true)
+        }) 
+        it("测试 encode 是否可以修改为false",function(){
+            ModPath.encode=false;
+            assert.equal(ModPath.encode,false)
+        })
+        it("测试 encode 只能只能在Boolean值之间切换",function(){
+            ModPath.encode="jh"    
+            assert.equal(ModPath.encode,false)
+        })
+        it("测试 encode 默认值是否可以修改回来",function(){
+            ModPath.encode=true;     
+            assert.equal(ModPath.encode,true)
+        })     
+    })
+    describe("数据编码测试 encodeData",function(){
+        it("encodeData 对象编码测试 成功返回正确字符串",function(){
+            var encodeData =  ModPath.encodeData({name:'mod',age:18,ismale:false,hoppy:["is",123]});
+            assert.equal(encodeData,'name=mod&age=18&ismale=false&hoppy=["is",123]')
+        }) 
+        it("encodeData 字符编码测试 返回 undefined",function(){
+            var encodeData = ModPath.encodeData("hadhaae");
+            assert.equal(encodeData,undefined)
+        })
+        it("encodeData 数组编码测试 返回 undefined",function(){
+            var encodeData = ModPath.encodeData(["hadhaae"]);
+            assert.equal(encodeData,undefined)
+        })
+        it("encodeData 布尔编码测试 返回 undefined",function(){
+            var encodeData = ModPath.encodeData(false);
+            assert.equal(encodeData,undefined)
+        })
+        it("encodeData 数值编码测试 返回 undefined",function(){
+            var encodeData = ModPath.encodeData(12);
+            assert.equal(encodeData,undefined)
+        })  
+    })
+    describe("数据解码测试 decodeData",function(){
+        it("字符数据解码测试，返回正确对象",function(){
+            var decodeData =  ModPath.decodeData('name=mod&age=18&ismale=false&hoppy=["is",123]');
+            assert.deepEqual(decodeData,{name:'mod',age:18,ismale:false,hoppy:["is",123]})
+        })
+        it("非格式正确字符解码测试，返回 {}",function(){
+            var decodeData =  ModPath.decodeData("");
+            assert.deepEqual(decodeData,{})
+        })
+        it("非字符解码测试，返回 {}",function(){
+            var decodeData =  ModPath.decodeData([1,3,3]);
+            assert.deepEqual(decodeData,{})
+        })
+    })
+    describe("地址数据编码测试 encodeURL",function(){
+        it("测试正常编码地址,非安全编码",function(){
+            var encodeURL =  ModPath.encodeURL('http://user:pass@host.com:8080/p/a/t/h',{name:'mod'},{encode:false});
+            assert.deepEqual(encodeURL,"http://user:pass@host.com:8080/p/a/t/h?name=mod")
+        })
+        it("测试正常编码地址,带安全编码",function(){
+            var encodeURL =  ModPath.encodeURL('http://user:pass@host.com:8080/p/a/t/h',{name:'mod'});
+            assert.deepEqual(encodeURL,"http%3A%2F%2Fuser%3Apass%40host.com%3A8080%2Fp%2Fa%2Ft%2Fh%3Fname%3Dmod")
+        })
+        it("测试正常编码地址,非安全编码，修改配置auth属性,hash属性",function(){
+            var encodeURL =  ModPath.encodeURL('http://user:pass@host.com:8080/p/a/t/h',{name:'mod'},{encode:false,auth:"admin:enmotion",hash:"hashTest"});
+            assert.deepEqual(encodeURL,"http://admin:enmotion@host.com:8080/p/a/t/h?name=mod#hashTest")
+        })
+    })
+    describe("地址数据解码测试 decodeURL",function(){
+        it("测试正常解码地址,非安全编码",function(){
+            var decodeURL =  ModPath.decodeURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',{encode:false});
+            console.log(decodeURL)
+            assert.deepEqual(decodeURL.query,{name:'mod'})
+        })
+        it("测试正常解码地址,带安全编码",function(){
+            var decodeURL =  ModPath.decodeURL('http%3A%2F%2Fuser%3Apass%40host.com%3A8080%2Fp%2Fa%2Ft%2Fh%3Fname%3Dmod');
+            console.log(decodeURL)
+            assert.deepEqual(decodeURL.query,{name:'mod'})
+        })        
+    })
+})
