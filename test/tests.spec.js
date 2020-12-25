@@ -82,13 +82,37 @@ describe('mod-path 测试',function(){
     //     })        
     // })
     describe("地址校验检测 validURL",function(){
-        it("测试正常解码地址,非安全编码",function(){
+        it("地址校验比对测试,地址完全相同,返回 true",function(){
             var isValidURL =  ModPath.validURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=mod");
             assert.deepEqual(isValidURL,true)
         })
-        it("测试正常解码地址,非安全编码",function(){
+        it("地址校验比对测试,仅参数不同,返回 true",function(){
             var isValidURL =  ModPath.validURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=ssse");
             assert.deepEqual(isValidURL,true)
-        })         
+        })
+        it("地址校验比对测试,protocal不同,返回 false",function(){
+            var isValidURL =  ModPath.validURL('https://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=mod");
+            assert.deepEqual(isValidURL,false)
+        })
+        it("地址校验比对测试,auth 不同,返回 false",function(){
+            var isValidURL =  ModPath.validURL('http://user:pass1@host.com:8080/p/a/t/h?name=mod',"http://user:pass2@host.com:8080/p/a/t/h?name=mod");
+            assert.deepEqual(isValidURL,false)
+        })        
+        it("地址校验比对测试,auth 规则地址中未做校验但是验证地址中携带,返回 true",function(){
+            var isValidURL =  ModPath.validURL('http://user:pass1@host.com:8080/p/a/t/h?name=mod',"http://host.com:8080/p/a/t/h?name=mod");
+            assert.deepEqual(isValidURL,true)
+        })
+        it("地址校验比对测试,path 规则地址为*,返回 true",function(){
+            var isValidURL =  ModPath.validURL('http://user:pass1@host.com:8080/p/a/t/h?name=mod',"http://host.com:8080/*");
+            assert.deepEqual(isValidURL,true)
+        })
+        it("地址校验比对测试,path 规则地址为/*/a 测试地址为 /p/a/t/h ,返回 true",function(){
+            var isValidURL =  ModPath.validURL('http://user:pass1@host.com:8080/p/a/t/h?name=mod',"http://host.com:8080/*/a");
+            assert.deepEqual(isValidURL,true)
+        })
+        it("地址校验比对测试,path 规则地址为/*/a 测试地址为 /p/b/t/h,返回 false",function(){
+            var isValidURL =  ModPath.validURL('http://user:pass1@host.com:8080/p/b/t/h?name=mod',"http://host.com:8080/*/a");
+            assert.deepEqual(isValidURL,false)
+        }) 
     })
 })

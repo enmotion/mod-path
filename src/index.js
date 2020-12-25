@@ -28,9 +28,10 @@ function easyCodeURL(){
     }
     function validURL(vstr,rstr){
         let vparse = url.parse(vstr) ; let rparse = url.parse(rstr) ;
-        let needEqualValue = ['auth','host','protocol'];
+        let needEqualValue = ['auth','host','protocol'];        
         for(let i in needEqualValue){
             if(rparse[needEqualValue[i]] && rparse[needEqualValue[i]] != vparse[needEqualValue[i]]){
+                console.log(vparse,rparse,needEqualValue[i])
                 return false
             }
         }
@@ -41,7 +42,6 @@ function easyCodeURL(){
                 return false
             }
         }
-        console.log(vparse,rparse,vpath,rpath)
         return true
     }
     //对数据进行字符串编码处理，该方法不会对字符串进行任何安全编码操作，数据对象，键值对连接符
