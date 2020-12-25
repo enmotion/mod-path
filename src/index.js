@@ -6,7 +6,7 @@ function easyCodeURL(){
     //是否启用安全编码全局变量
     let encode_ = true;
     let toolObj = {};
-    //对地址进行编码，(编码地址，编码数据，动态配置) 动态配置如果不设置则采用全局配置
+    //对地址进行编码，(编码地址，编码数据，动态配置) 动态配置如果不设置则采用全局配置    
     function encodeURL(baseURL,data,config){        
         let encode = !R.isNil(config) && !R.isNil(config.encode) && config.encode.constructor == Boolean ? config.encode:encode_;
         let urlObj = url.parse(baseURL);
@@ -25,6 +25,24 @@ function easyCodeURL(){
             locationURL = decodeURIComponent(locationURL);
         }
         return url.parse(locationURL,true)
+    }
+    function validURL(vstr,rstr){
+        let vparse = url.parse(vstr) ; let rparse = url.parse(rstr) ;
+        let needEqualValue = ['auth','host','protocol'];
+        for(let i in needEqualValue){
+            if(rparse[needEqualValue[i]] && rparse[needEqualValue[i]] != vparse[needEqualValue[i]]){
+                return false
+            }
+        }
+        let vpath = vparse.pathname.split('/');
+        let rpath = rparse.pathname.split('/');
+        for(let p in rpath){
+            if(!R.isEmpty(rpath[p]) && rpath[p]!="*" && rpath[p] != vpath[p]){
+                return false
+            }
+        }
+        console.log(vparse,rparse,vpath,rpath)
+        return true
     }
     //对数据进行字符串编码处理，该方法不会对字符串进行任何安全编码操作，数据对象，键值对连接符
     function encodeData(data){
@@ -77,8 +95,9 @@ function easyCodeURL(){
         },
         encodeURL:{writable:false,configurable:false,enumerable:false,value:encodeURL},
         decodeURL:{writable:false,configurable:false,enumerable:false,value:decodeURL},
+        validURL:{writable:false,configurable:false,enumerable:false,value:validURL},
         encodeData:{writable:false,configurable:false,enumerable:false,value:encodeData},
-        decodeData:{writable:false,configurable:false,enumerable:false,value:decodeData},
+        decodeData:{writable:false,configurable:false,enumerable:false,value:decodeData},        
     })
     Object.preventExtensions(toolObj);
     return toolObj
