@@ -22,7 +22,7 @@ import P from "mod-path"
 范例
 
 ```
-import ModPath from "../src/index.js";
+import P from "../src/index.js";
 //拼装Data
 let data={
     name:"MOD",
@@ -30,32 +30,32 @@ let data={
     gender:"male",
     hobby:["videogame","tree",{new:"keep"}],
 }
-var strData = ModPath.encodeData("")
+var strData = P.encodeData("")
 
 console.log(strData);
-console.log(ModPath.encodeData(data))
+console.log(P.encodeData(data))
 
-var URL = ModPath.encodeURL("www.baidu.com",data,{encode:true})
-var URL2 = ModPath.encodeURL("www.baidu.com#wechat",data,{encode:false})
+var URL = P.encodeURL("www.baidu.com",data,{encode:true})
+var URL2 = P.encodeURL("www.baidu.com#wechat",data,{encode:false})
 
 console.log(URL,"\n",URL2);
-console.log(ModPath.decodeURL(URL,{encode:true}).query)
-console.log(ModPath.decodeURL(URL2,{encode:false}))
+console.log(P.decodeURL(URL,{encode:true}).query)
+console.log(P.decodeURL(URL2,{encode:false}))
 
-console.log(ModPath.validURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=mod"));
-console.log(ModPath.validURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=ssse"));
-console.log(ModPath.validURL('https://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=mod"));
+console.log(P.validURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=mod"));
+console.log(P.validURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=ssse"));
+console.log(P.validURL('https://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=mod"));
 
 ```
 ### PROP ###
 [instance].encode 是否自动在生成地址时采用安全编码
 默认 true ，启用安全编码 false 则取消安全编码
 ```
-import ModPath from "../src/index.js";
+import P from "../src/index.js";
 
-console.log(ModPath.encode) // true
-ModPath.encode = false
-console.log(ModPath.encode) // false
+console.log(P.encode) // true
+P.encode = false
+console.log(P.encode) // false
 ```
 
 ### API ###
