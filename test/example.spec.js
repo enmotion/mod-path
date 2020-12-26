@@ -1,19 +1,23 @@
-// import easyCodeURL from "../src/index.js";
-// //拼装Data
-// let data={
-//     name:"MOD",
-//     age:12,
-//     gender:"male",
-//     hobby:["videogame","tree",{new:"keep"}],
-// }
-// var strData = easyCodeURL.encodeData("")
+import ModPath from "../src/index.js";
+//拼装Data
+let data={
+    name:"MOD",
+    age:12,
+    gender:"male",
+    hobby:["videogame","tree",{new:"keep"}],
+}
+var strData = ModPath.encodeData("")
 
-// console.log(strData);
-// console.log(easyCodeURL.decodeData(strData))
-// var URL = easyCodeURL.encodeURL("www.baidu.com",data,{encode:true})
-// var URL2 = easyCodeURL.encodeURL("www.baidu.com",data,{encode:false})
-// console.log(URL,URL2);
-// console.log(easyCodeURL.decodeURL(URL,{encode:true}))
-// var sss = easyCodeURL.decodeURL(URL,{encode:true});
+console.log(strData);
+console.log(ModPath.encodeData(data))
 
-// console.log(sss);
+var URL = ModPath.encodeURL("www.baidu.com",data,{encode:true})
+var URL2 = ModPath.encodeURL("www.baidu.com#wechat",data,{encode:false})
+
+console.log(URL,"\n",URL2);
+console.log(ModPath.decodeURL(URL,{encode:true}).query)
+console.log(ModPath.decodeURL(URL2,{encode:false}))
+
+console.log(ModPath.validURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=mod"));
+console.log(ModPath.validURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=ssse"));
+console.log(ModPath.validURL('https://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=mod"));

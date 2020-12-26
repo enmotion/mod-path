@@ -1,6 +1,6 @@
 # mod-path #
 
-为便利浏览器传参转换而设立。<br>
+url地址操作工具。<br>
 
 #### 功能说明：
 1.可将JSON对象,作为参数拼接进地址,支持安全编码</br>
@@ -22,14 +22,7 @@ import P from "mod-path"
 范例
 
 ```
-import P from "mod-path";
-
-console.log(P.encode) // true
-//全局设置
-P.encode=false
-//获取全局设置
-console.log(P.encode) // false
-
+import ModPath from "../src/index.js";
 //拼装Data
 let data={
     name:"MOD",
@@ -37,30 +30,35 @@ let data={
     gender:"male",
     hobby:["videogame","tree",{new:"keep"}],
 }
-var strData = P.encodeData(data)
+var strData = ModPath.encodeData("")
+
 console.log(strData);
-console.log(P.decodeData(strData))
-var URL = P.encodeURL("www.baidu.com",data,{encode:true})
-var URL2 = P.encodeURL("www.baidu.com",data,{encode:false})
-console.log(URL,URL2);
-console.log(P.decodeURL(URL,{encode:true}))
-var sss = P.decodeURL(URL,{encode:true});
-console.log(sss);
+console.log(ModPath.encodeData(data))
 
-//通过以上输出测试，可看到具体的使用方式与结果
+var URL = ModPath.encodeURL("www.baidu.com",data,{encode:true})
+var URL2 = ModPath.encodeURL("www.baidu.com#wechat",data,{encode:false})
 
+console.log(URL,"\n",URL2);
+console.log(ModPath.decodeURL(URL,{encode:true}).query)
+console.log(ModPath.decodeURL(URL2,{encode:false}))
+
+console.log(ModPath.validURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=mod"));
+console.log(ModPath.validURL('http://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=ssse"));
+console.log(ModPath.validURL('https://user:pass@host.com:8080/p/a/t/h?name=mod',"http://user:pass@host.com:8080/p/a/t/h?name=mod"));
+
+```
+### PROP ###
+[instance].encode 是否自动在生成地址时采用安全编码
+默认 true ，启用安全编码 false 则取消安全编码
+```
+import ModPath from "../src/index.js";
+
+console.log(ModPath.encode) // true
+ModPath.encode = false
+console.log(ModPath.encode) // false
 ```
 
 ### API ###
-#### setConfig(config)<br> ####
-设置全局配置参数
-config:{
-    break:String,// 地址与参数分割符号，默认为"?";
-    join:String,// 参数拼接符 默认"&"
-    encode:Boolean,//是否将拼接后的地址进行 encodeURIComponent 编码 ，默认true
-}
-#### getConfig()<br> ####
-获取全局配置参数 return config
 
 #### encodeURL(baseURL,data,config)<br> #### 
 将地址拼接参数
@@ -69,7 +67,13 @@ data:JSON Object,//参数JSON格式
 config:Object,//同全局配置属性，可每次调用该方法时，灵活设置，如空则默认全局配置。
 
 ```
-P.encodeURL('www.baiduc.com',{name:"foo",age:"22"},{break:"?",join:"!",encode:false});
+import P from "../src/index.js";
+
+P.encodeURL('www.baiduc.com',{name:"MOD",age:12,gender:"male",hobby:["videogame","tree",{new:"keep"}]});
+//www.baidu.com%3Fname%3DMOD%26age%3D12%26gender%3Dmale%26hobby%3D%5B%22videogame%22%2C%22tree%22%2C%7B%22new%22%3A%22keep%22%7D%5D
+
+P.encodeURL('www.baiduc.com#wechat',{name:"MOD",age:12,gender:"male",hobby:["videogame","tree",{new:"keep"}]},{encode:false});
+//www.baidu.com?name=MOD&age=12&gender=male&hobby=["videogame","tree",{"new":"keep"}]#wechat
 ```
 
 #### decodeURL(locationURL,config)<br> #### 
@@ -78,5 +82,15 @@ locationURL:String,//携参地址
 config:Object,//同全局配置属性，可每次调用该方法时，灵活设置，如空则默认全局配置方式进行解析。
 
 ```
-P.decodeURL('www.baiduc.com',{break:"?",join:"!",encode:false});
+P.decodeURL('www.baidu.com%3Fname%3DMOD%26age%3D12%26gender%3Dmale%26hobby%3D%5B%22videogame%22%2C%22tree%22%2C%7B%22new%22%3A%22keep%22%7D%5D').query;
+//{name:"MOD",age:12,gender:"male",hobby:["videogame","tree",{new:"keep"}]}
+```
+
+#### config
+配置对象结构说明
+```
+{
+    encode:true,//Boolean是否在本次调用时启用安全编码，如缺省 则依照全局配置
+    hash:"wechat",//可添入哈希值
+}
 ```

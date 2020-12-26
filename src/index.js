@@ -31,7 +31,6 @@ function easyCodeURL(){
         let needEqualValue = ['auth','host','protocol'];        
         for(let i in needEqualValue){
             if(rparse[needEqualValue[i]] && rparse[needEqualValue[i]] != vparse[needEqualValue[i]]){
-                console.log(vparse,rparse,needEqualValue[i])
                 return false
             }
         }
