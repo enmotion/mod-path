@@ -11,12 +11,10 @@ function easyCodeURL(){
         let encode = !R.isNil(config) && !R.isNil(config.encode) && config.encode.constructor == Boolean ? config.encode:encode_;
         let urlObj = url.parse(baseURL);
         let appendData = encodeData(data);//调用封装data方法
-        let URL = url.format(R.merge(urlObj,R.merge(config && config.constructor == Object ?config:{},{search:"?"+appendData})));//拼装成传参地址
         if(encode){
-            return encodeURIComponent(URL);
-        }else{
-            return URL
+            appendData = encodeURIComponent(appendData);
         }
+        return url.format(R.merge(urlObj,R.merge(config && config.constructor == Object ?config:{},{search:"?"+appendData})));//拼装成传参地址
     }
     //对地址进行解码，(需解码的地址，动态配置) 动态配置如果不设置则采用全局配置
     function decodeURL(locationURL,config){

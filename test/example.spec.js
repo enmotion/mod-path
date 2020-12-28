@@ -11,8 +11,8 @@ window.P = ModPath
 console.log(strData);
 console.log(ModPath.encodeData(data))
 
-var URL = ModPath.encodeURL("www.baidu.com",data,{encode:true})
-var URL2 = ModPath.encodeURL("www.baidu.com#wechat",data,{encode:false})
+var URL = ModPath.encodeURL("https://www.baidu.com",data,{encode:true})
+var URL2 = ModPath.encodeURL("http://www.baidu.com#wechat",data,{encode:false})
 
 console.log(URL,"\n",URL2);
 console.log(ModPath.decodeURL(URL,{encode:true}).query)
