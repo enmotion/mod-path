@@ -12,7 +12,7 @@ function easyCodeURL(){
         let urlObj = url.parse(baseURL);
         let appendData = encodeData(data);//调用封装data方法
         if(encode){
-            appendData = encodeURIComponent(appendData);
+            appendData = encodeURI(appendData);
         }
         return url.format(R.merge(urlObj,R.merge(config && config.constructor == Object ?config:{},{search:"?"+appendData})));//拼装成传参地址
     }
@@ -20,7 +20,8 @@ function easyCodeURL(){
     function decodeURL(locationURL,config){
         let encode = !R.isNil(config) && !R.isNil(config.encode) && config.encode.constructor == Boolean ? config.encode:encode_;
         if(encode){
-            locationURL = decodeURIComponent(locationURL);
+            locationURL = decodeURI(locationURL);
+            console.log(locationURL)
         }
         return url.parse(locationURL,true)
     }
