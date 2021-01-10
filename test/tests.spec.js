@@ -62,8 +62,9 @@ describe('mod-path 测试',function(){
             assert.deepEqual(encodeURL,"http://user:pass@host.com:8080/p/a/t/h?name=mod")
         })
         it("测试正常编码地址,带安全编码",function(){
-            var encodeURL =  ModPath.encodeURL('http://user:pass@host.com:8080/p/a/t/h',{name:'mod'});
-            assert.deepEqual(encodeURL,"http://user:pass@host.com:8080/p/a/t/h?name%3Dmod")
+            var encodeURL =  ModPath.encodeURL('http://user:pass@host.com:8080/p/a/t/h',{name:'哈哈'});
+            console.log(encodeURL)
+            assert.deepEqual(encodeURL,"http://user:pass@host.com:8080/p/a/t/h?name=%E5%93%88%E5%93%88")
         })
         it("测试正常编码地址,非安全编码，修改配置auth属性,hash属性",function(){
             var encodeURL =  ModPath.encodeURL('http://user:pass@host.com:8080/p/a/t/h',{name:'mod'},{encode:false,auth:"admin:enmotion",hash:"hashTest"});
@@ -77,9 +78,9 @@ describe('mod-path 测试',function(){
             assert.deepEqual(decodeURL.query,{name:'mod'})
         })
         it("测试正常解码地址,带安全编码",function(){
-            var decodeURL =  ModPath.decodeURL('http%3A%2F%2Fuser%3Apass%40host.com%3A8080%2Fp%2Fa%2Ft%2Fh%3Fname%3Dmod');
-            console.log(decodeURL)
-            assert.deepEqual(decodeURL.query,{name:'mod'})
+            var decodeURL =  ModPath.decodeURL('http://user:pass@host.com:8080/p/a/t/h?name=%E5%93%88%E5%93%88');
+            console.log(decodeURL,123)
+            assert.deepEqual(decodeURL.query,{name:'哈哈'})
         })        
     })
     describe("地址校验检测 validURL",function(){

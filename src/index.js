@@ -2,7 +2,7 @@
 var url = require('url');
 const R = require("ramda");
 
-function easyCodeURL(){
+function ModPath(){
     //是否启用安全编码全局变量
     let encode_ = true;
     let toolObj = {};
@@ -21,7 +21,6 @@ function easyCodeURL(){
         let encode = !R.isNil(config) && !R.isNil(config.encode) && config.encode.constructor == Boolean ? config.encode:encode_;
         if(encode){
             locationURL = decodeURI(locationURL);
-            console.log(locationURL)
         }
         return url.parse(locationURL,true)
     }
@@ -100,4 +99,4 @@ function easyCodeURL(){
     Object.preventExtensions(toolObj);
     return toolObj
 }
-export default easyCodeURL();
+export default ModPath();
