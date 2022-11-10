@@ -20,7 +20,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "clean-webpack-plugin": "^3.0.0",
-    "mocha": "^8.2.1",
+    "mocha": "^10.1.0",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^4.2.0",
